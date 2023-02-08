@@ -22,6 +22,7 @@ CategoryModel _$CategoryModelFromJson(Map<String, dynamic> json) {
 mixin _$CategoryModel {
   String? get title => throw _privateConstructorUsedError;
   bool? get isSelect => throw _privateConstructorUsedError;
+  int? get isSingleSelect => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +36,7 @@ abstract class $CategoryModelCopyWith<$Res> {
           CategoryModel value, $Res Function(CategoryModel) then) =
       _$CategoryModelCopyWithImpl<$Res, CategoryModel>;
   @useResult
-  $Res call({String? title, bool? isSelect});
+  $Res call({String? title, bool? isSelect, int? isSingleSelect});
 }
 
 /// @nodoc
@@ -53,6 +54,7 @@ class _$CategoryModelCopyWithImpl<$Res, $Val extends CategoryModel>
   $Res call({
     Object? title = freezed,
     Object? isSelect = freezed,
+    Object? isSingleSelect = freezed,
   }) {
     return _then(_value.copyWith(
       title: freezed == title
@@ -63,6 +65,10 @@ class _$CategoryModelCopyWithImpl<$Res, $Val extends CategoryModel>
           ? _value.isSelect
           : isSelect // ignore: cast_nullable_to_non_nullable
               as bool?,
+      isSingleSelect: freezed == isSingleSelect
+          ? _value.isSingleSelect
+          : isSingleSelect // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -75,7 +81,7 @@ abstract class _$$_CategoryModelCopyWith<$Res>
       __$$_CategoryModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? title, bool? isSelect});
+  $Res call({String? title, bool? isSelect, int? isSingleSelect});
 }
 
 /// @nodoc
@@ -91,6 +97,7 @@ class __$$_CategoryModelCopyWithImpl<$Res>
   $Res call({
     Object? title = freezed,
     Object? isSelect = freezed,
+    Object? isSingleSelect = freezed,
   }) {
     return _then(_$_CategoryModel(
       title: freezed == title
@@ -101,6 +108,10 @@ class __$$_CategoryModelCopyWithImpl<$Res>
           ? _value.isSelect
           : isSelect // ignore: cast_nullable_to_non_nullable
               as bool?,
+      isSingleSelect: freezed == isSingleSelect
+          ? _value.isSingleSelect
+          : isSingleSelect // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -108,7 +119,7 @@ class __$$_CategoryModelCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_CategoryModel implements _CategoryModel {
-  _$_CategoryModel({this.title, this.isSelect});
+  _$_CategoryModel({this.title, this.isSelect, this.isSingleSelect});
 
   factory _$_CategoryModel.fromJson(Map<String, dynamic> json) =>
       _$$_CategoryModelFromJson(json);
@@ -117,10 +128,12 @@ class _$_CategoryModel implements _CategoryModel {
   final String? title;
   @override
   final bool? isSelect;
+  @override
+  final int? isSingleSelect;
 
   @override
   String toString() {
-    return 'CategoryModel(title: $title, isSelect: $isSelect)';
+    return 'CategoryModel(title: $title, isSelect: $isSelect, isSingleSelect: $isSingleSelect)';
   }
 
   @override
@@ -130,12 +143,14 @@ class _$_CategoryModel implements _CategoryModel {
             other is _$_CategoryModel &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.isSelect, isSelect) ||
-                other.isSelect == isSelect));
+                other.isSelect == isSelect) &&
+            (identical(other.isSingleSelect, isSingleSelect) ||
+                other.isSingleSelect == isSingleSelect));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, title, isSelect);
+  int get hashCode => Object.hash(runtimeType, title, isSelect, isSingleSelect);
 
   @JsonKey(ignore: true)
   @override
@@ -152,8 +167,10 @@ class _$_CategoryModel implements _CategoryModel {
 }
 
 abstract class _CategoryModel implements CategoryModel {
-  factory _CategoryModel({final String? title, final bool? isSelect}) =
-      _$_CategoryModel;
+  factory _CategoryModel(
+      {final String? title,
+      final bool? isSelect,
+      final int? isSingleSelect}) = _$_CategoryModel;
 
   factory _CategoryModel.fromJson(Map<String, dynamic> json) =
       _$_CategoryModel.fromJson;
@@ -162,6 +179,8 @@ abstract class _CategoryModel implements CategoryModel {
   String? get title;
   @override
   bool? get isSelect;
+  @override
+  int? get isSingleSelect;
   @override
   @JsonKey(ignore: true)
   _$$_CategoryModelCopyWith<_$_CategoryModel> get copyWith =>

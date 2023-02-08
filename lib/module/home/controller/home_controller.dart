@@ -6,6 +6,9 @@ import 'package:nature_care/module/home/model/testModel/test_model.dart';
 import 'package:nature_care/util/helper/api_base_helper.dart';
 import 'package:http/http.dart' as http;
 
+import '../model/testCompanyModel/test_company_model.dart';
+import '../model/testUser/test_user_model.dart';
+
 class HomeController extends GetxController {
   final isLoadingAllProduct = false.obs;
   final productModel = TestModel().obs;
@@ -14,7 +17,7 @@ class HomeController extends GetxController {
   Future<List<TestModel>> getAllProduct() async {
     debugPrint('hiiii===========33333');
     isLoadingAllProduct(true);
-    String url = 'https://api.openbrewerydb.org/breweries';
+    String url = 'https://gorest.co.in/public/v2/comments';
     try {
       await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json',
@@ -55,5 +58,67 @@ class HomeController extends GetxController {
     }
 
     return productList;
+  }
+
+  final testUserModel = TestUserModel().obs;
+  final testUserList = <TestUserModel>[].obs;
+  final isLoadingUser = false.obs;
+  Future<List<TestUserModel>> getUser() async {
+    isLoadingUser(true);
+    try {
+      await apiBaseHelper
+          .onNetworkRequesting(
+              methode: METHODE.get, isAuthorize: false, url: 'comments')
+          .then((res) {
+        testUserList.clear();
+        res.map((e) {
+          // testUserModel.value= TestUserModel.fromJson(e);
+          testUserList.add(TestUserModel.fromJson(e));
+        }).toList();
+      }).onError((ErrorModel errorModel, stackTrace) {
+        debugPrint('okkk1111:${errorModel.statusCode}');
+      });
+    } finally {
+      isLoadingUser(false);
+    }
+    return testUserList;
+  }
+
+  final testCompanyModel = TestCompanyModel().obs;
+  final testCompanyList = <TestCompanyModel>[].obs;
+  final isLoadingCom = false.obs;
+  Future<TestCompanyModel> fetchCompany() async {
+    isLoadingCom(true);
+    String url = 'https://cicstaging.z1central.com/api/v4/company';
+    await http.get(Uri.parse(url), headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization':
+          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiZGMzNTY2YWYwODQ3YTkwZjI0NjMyODA2YmQ0MDdiMGYyNDk4MjhhMDdiNmVkNWEzNGU5NTAzZGJmZTNmNDYwYzAzZDc5MTY1MGQ4OTA4ZmIiLCJpYXQiOjE2NzU4MjI5MjYuMjUyMzYxLCJuYmYiOjE2NzU4MjI5MjYuMjUyMzY2LCJleHAiOjE3MDczNTg5MjYuMjM1NTU2LCJzdWIiOiIxMSIsInNjb3BlcyI6WyIqIl19.LayLGJcTNlAoBpGoVs8y_3Fc5I79UFH9N7hEaKeK9VkxRdALJT2MHSJRMtHbLLjkY48gIjkjNYIuAdAFSMguvnUrG1xrZifDBElmNvo2mON0xEvkBpoZsnfh7D0H8Iut8X3yHADIGuKASzvViLKU6ZntsH-qhL4YzGKBta7leF24__srRyi-62p1cgK2goX6LGRhxEj2uwJsl-DaV_kKWYElP1vx6kwwlbT4QcXhAxmdyA8DkNOv_48nRD9eC4QCRCMh-XGC65XG26BI-vsuzgXqlkjvVhVx4pbrT3ZzXbqmLez1glkTVVackDMwBy5RRMAnJ8vIm2ZYVvLC-Add3Gj5PPxKozVRcBdp5i4npq4bG28jm5ZQObw6kjEQD9iWgAstj0XzsqgTsGM8PiBxi5YiskCyA_riXwARWmweyZqlKMWM1KmL0ptpwy9ubXFruyzPlHU-ZRdwXOoD_1VPpuB5QlRZqhOiEn2U_cDfklTdRo_PO_gFOs-YrZTecj5k5nCYtJHVTBMKpZIE4gREPf_Qgmy-_5Kqr8ufTQjtMf8XJ-ncW41nXohXhRu39SZy8xbO-Ki1naavvdfRxwjNkFFnXSXGs-PPW9BYiRi24onw6mP8j_nWRz4GiCxBOxQoNOVwM9kwojqFZmxWfSn2ftES6foBSInYyPWLkaXbO8k'
+    }).then((res) {
+      debugPrint('okkkkk111::${res.body}');
+      try {
+        if (res.statusCode == 200) {
+          debugPrint('okkkkk222::${testCompanyModel.value.id}');
+          testCompanyList.clear();
+          var resJson = json.decode(res.body)['data'];
+          // testCompanyModel.value = TestCompanyModel.fromJson(resJson);
+          resJson.map((e) {
+            testCompanyList.add(TestCompanyModel.fromJson(e));
+            // debugPrint('okkkkk999999::${testCompanyModel.value.id}');
+          }).toList();
+          // debugPrint('okkkkk::${testCompanyModel.value.id}');
+
+          debugPrint('length : ${testCompanyList[0].id}');
+        } else {
+          // debugPrint('error code:::::::${res.statusCode}');
+        }
+      } catch (e) {
+        isLoadingCom(false);
+      } finally {
+        isLoadingCom(false);
+      }
+    });
+    return testCompanyModel.value;
   }
 }

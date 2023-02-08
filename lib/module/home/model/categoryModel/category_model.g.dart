@@ -10,10 +10,12 @@ _$_CategoryModel _$$_CategoryModelFromJson(Map<String, dynamic> json) =>
     _$_CategoryModel(
       title: json['title'] as String?,
       isSelect: json['isSelect'] as bool?,
+      isSingleSelect: json['isSingleSelect'] as int?,
     );
 
 Map<String, dynamic> _$$_CategoryModelToJson(_$_CategoryModel instance) =>
     <String, dynamic>{
       'title': instance.title,
       'isSelect': instance.isSelect,
+      'isSingleSelect': instance.isSingleSelect,
     };

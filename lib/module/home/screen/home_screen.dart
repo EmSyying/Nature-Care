@@ -17,10 +17,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int? isSingleSelect;
   final homeCon = Get.put(HomeController());
+
   @override
   void initState() {
     homeCon.getAllProduct();
+    homeCon.getUser();
+    homeCon.fetchCompany();
     super.initState();
   }
 
@@ -79,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.only(left: 20, top: 10),
                       child: Text(
                         'Nature Care',
-                        style: theme.headline1,
+                        style: theme.displayLarge,
                       ),
                     ),
                     Row(
@@ -119,51 +123,44 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             color: Colors.white,
           ),
-          child: Column(
-            children: [
-              const Text('Base Seller'),
-              // SizedBox(
-              //   width: double.infinity,
-              //   height: 300,
-              //   child: ListView.builder(
-              //     scrollDirection: Axis.horizontal,
-              //     shrinkWrap: true,
-              //     itemBuilder: ((context, index) {
-              //       return CustomBaseCard(
-              //         // img: homeCon.productList[index].imageLink,
-              //         title: homeCon.productList[index].name,
-              //         price: homeCon.productList[index].price,
-              //         currency: homeCon.productList[index].currency,
-              //       );
-              //     }),
-              //     itemCount: 4,
-              //   ),
-              // ),
-              Obx(() => SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            ...homeCon.productList.asMap().entries.map(
-                              (e) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: CustomBaseCard(
-                                    testModel: e.value,
-                                    // img: e.value.imageLink,
-                                    // title: e.value.name,
-                                    // price: e.value.price,
-                                    // currency: e.value.currency,
-                                    // isSelect: e.value.isSelect,
-                                    // onTap: () {
-                                    //   debugPrint('hiiiiiiii');
-                                    // },
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(left: 15, top: 20),
+                  child: Text('Base Seller'),
+                ),
+                Obx(
+                  () => SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        ...homeCon.testUserList.asMap().entries.map(
+                          (e) {
+                            return Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: CustomBaseCard(
+                                title: e.value.name,
+                                price: '15\$',
+
+                                // testModel: e.value,
+                                // img: e.value.imageLink,
+                                // title: e.value.name,
+                                // price: e.value.price,
+                                // currency: e.value.currency,
+                                // isSelect: e.value.isSelect,
+                                // onTap: () {
+                                //   debugPrint('hiiiiiiii');
+                                // },
+                              ),
+                            );
+                          },
                         ),
-                      )
+                      ],
+                    ),
+                  ),
+
                   // SingleChildScrollView(
                   //   scrollDirection: Axis.horizontal,
                   //   child: Row(
@@ -187,8 +184,56 @@ class _HomeScreenState extends State<HomeScreen> {
                   //     ],
                   //   ),
                   // ),
-                  ),
-            ],
+                ),
+                ...categoryList.asMap().entries.map((e) {
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        if (isSingleSelect == e.key) {
+                          isSingleSelect = null;
+                        } else {
+                          isSingleSelect = e.key;
+                        }
+                        // if (categoryList[e.key].isSelect == true) {
+                        //   categoryList[e.key] =
+                        //       categoryList[e.key].copyWith(isSelect: false);
+                        // } else {
+                        //   categoryList[e.key] =
+                        //       categoryList[e.key].copyWith(isSelect: true);
+                        // }
+                      });
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 20, top: 20),
+                      color: categoryList[e.key].isSelect == true
+                          ? Colors.amber
+                          : const Color.fromARGB(255, 243, 187, 183),
+                      width: 50,
+                      height: 50,
+                      child: Center(
+                        child: isSingleSelect != e.key
+                            ? const Text('No')
+                            : const Text('Ok'),
+                      ),
+                    ),
+                  );
+                }),
+                // Obx(
+                //   () => Text('${homeCon.testCompanyModel.value.id}'),
+                // ),
+                GetBuilder<HomeController>(
+                    init: HomeController(),
+                    builder: (con) {
+                      return Column(
+                        children: [
+                          ...homeCon.testCompanyList.asMap().entries.map((e) {
+                            return Text('${e.value.id}');
+                          }).toList(),
+                        ],
+                      );
+                    }),
+              ],
+            ),
           ),
         ),
       ),

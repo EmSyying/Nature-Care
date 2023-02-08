@@ -8,6 +8,7 @@ class CategoryModel with _$CategoryModel {
   factory CategoryModel({
     final String? title,
     final bool? isSelect,
+    final int? isSingleSelect,
   }) = _CategoryModel;
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) =>
