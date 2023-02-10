@@ -6,6 +6,7 @@ import 'package:nature_care/module/home/screen/shipping.dart';
 import '../../module/home/screen/bottom_navigation.dart';
 import '../../module/home/screen/home_screen.dart';
 import '../../module/home/screen/splas_screen.dart';
+import '../../module/login/screen/login_screen.dart';
 
 final GlobalKey<NavigatorState> _shellNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'shell');
@@ -20,6 +21,10 @@ final router = GoRouter(
         path: '/splas',
         builder: (context, state) => const SplasScreen(),
       ),
+      GoRoute(
+        path: '/log-in',
+        builder: ((context, state) => const LoginScreen()),
+      ),
       ShellRoute(
           navigatorKey: _shellNavigatorKey,
           pageBuilder: (context, state, child) {
@@ -32,7 +37,7 @@ final router = GoRouter(
             GoRoute(
               parentNavigatorKey: _shellNavigatorKey,
               path: '/',
-              builder: (context, state) => HomeScreen(
+              builder: (context, state) => const HomeScreen(
                 key: _scaffoldKey,
               ),
             ),

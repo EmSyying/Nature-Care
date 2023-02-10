@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nature_care/util/colors/app_colors.dart';
+import 'package:nature_care/util/helper/local_storage.dart';
 
 class SplasScreen extends StatefulWidget {
   const SplasScreen({super.key});
@@ -11,11 +12,20 @@ class SplasScreen extends StatefulWidget {
 }
 
 class _SplasScreenState extends State<SplasScreen> {
+  onstore() async {
+    final token = await LocalStorage.getStringValue(key: 'token');
+    Future.delayed(const Duration(seconds: 5), () {
+      if (token == '') {
+        context.go('/log-in');
+      } else {
+        context.go('/');
+      }
+    });
+  }
+
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 5), () {
-      context.go('/');
-    });
+    onstore();
     super.initState();
   }
 

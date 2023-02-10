@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:nature_care/util/colors/app_colors.dart';
 
 customAppBar({
@@ -10,6 +11,7 @@ customAppBar({
   final Color? backgroundColor,
   final bool? centerTitle,
   final bool? isLogo,
+  final SystemUiOverlayStyle? systemUiOverlayStyle,
 }) {
   return AppBar(
     title: Text(
@@ -21,5 +23,6 @@ customAppBar({
     backgroundColor: backgroundColor ?? AppColors.primaryColor,
     centerTitle: centerTitle,
     actions: action,
+    systemOverlayStyle: systemUiOverlayStyle,
   );
 }
