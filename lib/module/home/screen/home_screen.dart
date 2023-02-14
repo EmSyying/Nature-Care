@@ -12,19 +12,32 @@ import '../../../widget/custom_category_menu.dart';
 import '../model/categoryModel/category_model.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({
+    super.key,
+  });
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int qty = 0;
+  void onIncrease() {
+    qty++;
+  }
+
+  // onMinus() {
+  //   int i = qty;
+
+  // }
+
   int? isSingleSelect;
   final homeCon = Get.put(HomeController());
   final loginCon = Get.put(LoginController());
 
   @override
   void initState() {
+    onIncrease();
     homeCon.getAllProduct();
     homeCon.getUser();
     homeCon.fetchCompany();
@@ -274,6 +287,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: CustomBaseCard(
                                 title: e.value.name,
                                 price: '15\$',
+                                qty: qty,
+                                onTapincrease: () {
+                                  // debugPrint('000:${onIncrease()}');
+                                  onIncrease();
+                                },
+                                onTapminus: () {
+                                  onIncrease();
+                                },
 
                                 // testModel: e.value,
                                 // img: e.value.imageLink,
@@ -316,6 +337,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   //   ),
                   // ),
                 ),
+                //====================multiple and single single select
                 ...categoryList.asMap().entries.map((e) {
                   return GestureDetector(
                     onTap: () {
@@ -325,13 +347,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         } else {
                           isSingleSelect = e.key;
                         }
-                        // if (categoryList[e.key].isSelect == true) {
-                        //   categoryList[e.key] =
-                        //       categoryList[e.key].copyWith(isSelect: false);
-                        // } else {
-                        //   categoryList[e.key] =
-                        //       categoryList[e.key].copyWith(isSelect: true);
-                        // }
+                        if (categoryList[e.key].isSelect == true) {
+                          categoryList[e.key] =
+                              categoryList[e.key].copyWith(isSelect: false);
+                        } else {
+                          categoryList[e.key] =
+                              categoryList[e.key].copyWith(isSelect: true);
+                        }
                       });
                     },
                     child: Container(

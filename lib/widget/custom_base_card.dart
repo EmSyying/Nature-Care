@@ -10,7 +10,10 @@ class CustomBaseCard extends StatefulWidget {
   final String? currency;
   final bool? isSelect;
   TestModel? testModel;
+  final GestureTapCallback? onTapincrease;
+  final GestureTapCallback? onTapminus;
   final GestureTapCallback? onTap;
+  final int? qty;
 
   CustomBaseCard(
       {super.key,
@@ -21,7 +24,10 @@ class CustomBaseCard extends StatefulWidget {
       this.currency,
       this.isSelect,
       this.onTap,
-      this.testModel});
+      this.testModel,
+      this.onTapincrease,
+      this.onTapminus,
+      this.qty});
 
   @override
   State<CustomBaseCard> createState() => _CustomBaseCardState();
@@ -94,12 +100,15 @@ class _CustomBaseCardState extends State<CustomBaseCard> {
                                         ),
                                         color:
                                             Color.fromARGB(255, 171, 145, 243)),
-                                    child: const Text('+'),
+                                    child: GestureDetector(
+                                        onTap: widget.onTapincrease,
+                                        child: const Text('+')),
                                   ),
                                 ),
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 8, right: 8),
-                                  child: Text('1'),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 8, right: 8),
+                                  child: Text('${widget.qty}'),
                                 ),
                                 Expanded(
                                   child: Container(
@@ -112,7 +121,9 @@ class _CustomBaseCardState extends State<CustomBaseCard> {
                                         ),
                                         color:
                                             Color.fromARGB(255, 171, 145, 243)),
-                                    child: const Text('-'),
+                                    child: GestureDetector(
+                                        onTap: widget.onTapminus,
+                                        child: const Text('-')),
                                   ),
                                 ),
                               ],
