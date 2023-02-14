@@ -38,6 +38,16 @@ class LoginController extends GetxController {
           debugPrint('okkkk11111:${res.statusCode}');
           context.go('/');
         } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Center(
+                  child: Text(
+                'Invalid Phone Number',
+                style: Theme.of(context).textTheme.displayMedium,
+              )),
+              backgroundColor: Colors.red,
+            ),
+          );
           debugPrint('nooooo:${res.body}');
           debugPrint('nooo11111:${res.statusCode}');
         }
@@ -51,7 +61,7 @@ class LoginController extends GetxController {
 
   onLogOut(BuildContext context) async {
     LocalStorage.storeData(key: 'token', value: '');
-    context.go('/login');
+    context.go('/log-in');
   }
 
   @override

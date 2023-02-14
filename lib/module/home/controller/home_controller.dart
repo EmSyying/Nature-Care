@@ -99,7 +99,6 @@ class HomeController extends GetxController {
       debugPrint('okkkkk111::${res.body}');
       try {
         if (res.statusCode == 200) {
-          debugPrint('okkkkk222::${testCompanyModel.value.id}');
           testCompanyList.clear();
           var resJson = json.decode(res.body)['data'];
           // testCompanyModel.value = TestCompanyModel.fromJson(resJson);

@@ -28,6 +28,8 @@ class CustomTextFieldNew extends StatelessWidget {
   final bool? enable;
   final TextInputAction? textInputAction;
   final int? maxlenght;
+  final String obscuringCharacter;
+  final bool? obscureText;
 
   const CustomTextFieldNew({
     this.maxlenght,
@@ -57,6 +59,8 @@ class CustomTextFieldNew extends StatelessWidget {
     this.enable = true,
     this.minLines,
     this.onFieldSubmitted,
+    this.obscuringCharacter = '',
+    this.obscureText = false,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -67,6 +71,8 @@ class CustomTextFieldNew extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextFormField(
+            obscureText: obscureText!,
+            obscuringCharacter: '*',
             onFieldSubmitted: onFieldSubmitted,
             minLines: minLines,
             autofocus: autoFocus ?? false,

@@ -7,6 +7,7 @@ import '../../module/home/screen/bottom_navigation.dart';
 import '../../module/home/screen/home_screen.dart';
 import '../../module/home/screen/splas_screen.dart';
 import '../../module/login/screen/login_screen.dart';
+import '../../module/login/screen/sign_up_screen.dart';
 
 final GlobalKey<NavigatorState> _shellNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'shell');
@@ -24,6 +25,10 @@ final router = GoRouter(
       GoRoute(
         path: '/log-in',
         builder: ((context, state) => const LoginScreen()),
+      ),
+      GoRoute(
+        path: '/sign-up',
+        builder: (context, state) => const SignUpScreen(),
       ),
       ShellRoute(
           navigatorKey: _shellNavigatorKey,

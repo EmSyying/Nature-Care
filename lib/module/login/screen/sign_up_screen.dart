@@ -1,28 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-import 'package:nature_care/module/login/controller/login_controller.dart';
-import 'package:nature_care/util/colors/app_colors.dart';
-import 'package:nature_care/util/helper/custom_textformfield.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+import '../../../util/colors/app_colors.dart';
+import '../../../util/helper/custom_textformfield.dart';
+
+class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final con = Get.put(LoginController());
     return Scaffold(
       body: Column(
         children: [
-          // customAppBar(
-          //     title: '',
-          //     context: context,
-          //     backgroundColor: Colors.green,
-          //     elevated: 0,
-          //     systemUiOverlayStyle: SystemUiOverlayStyle.dark),
           Container(
-            height: 180,
             width: double.infinity,
+            height: 180,
             padding: const EdgeInsets.only(top: 80),
             decoration: const BoxDecoration(
               color: AppColors.primaryColor,
@@ -32,26 +24,15 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             child: Center(
-                child: Text(
-              'Welcom',
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall!
-                  .copyWith(color: AppColors.secondColor, fontSize: 26),
-            )),
-            // child: Container(
-            //   margin: const EdgeInsets.only(top: 80),
-            //   width: 120,
-            //   height: 120,
-            //   child: Image.network(
-            //     'https://uxwing.com/wp-content/themes/uxwing/download/beauty-fashion/skincare-icon.png',
-            //     color: AppColors.primaryColor,
-            //   ),
-            // ),
+              child: Text(
+                'Sign Up',
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall!
+                    .copyWith(color: AppColors.secondColor, fontSize: 26),
+              ),
+            ),
           ),
-          // const SizedBox(
-          //   height: 30,
-          // ),
           Expanded(
             child: Container(
               decoration: const BoxDecoration(
@@ -74,37 +55,46 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  Text(
-                    'Login',
-                    style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black),
-                  ),
                   const SizedBox(
                     height: 10,
                   ),
-                  CustomTextFieldNew(
-                    controller: con.phoneController,
+                  const CustomTextFieldNew(
+                    // controller: con.phoneController,
                     // onChange: (e) {
                     //   con.textPhone.value = e;
                     // },
-                    validateText: con.passwordController.toString(),
-                    hintText: 'Phone',
-                    labelText: 'Phone number',
+                    hintText: 'Full Name',
+                    labelText: 'Name',
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       CustomTextFieldNew(
-                        controller: con.passwordController,
+                        // controller: con.passwordController,
                         onChange: (e) {
-                          con.textPassword;
+                          // con.textPassword;
+                          // con.textPassword.value = e;
+                        },
+                        hintText: 'Phone',
+                        labelText: 'Phone Number',
+                      ),
+                      CustomTextFieldNew(
+                        // controller: con.passwordController,
+                        onChange: (e) {
+                          // con.textPassword;
                           // con.textPassword.value = e;
                         },
                         hintText: 'Password',
-                        labelText: 'Password',
-                        // obscureText: true,
+                        labelText: 'Set Password',
+                      ),
+                      CustomTextFieldNew(
+                        // controller: con.passwordController,
+                        onChange: (e) {
+                          // con.textPassword;
+                          // con.textPassword.value = e;
+                        },
+                        hintText: 'Verify',
+                        labelText: 'Verify Password',
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 20, top: 10),
@@ -118,7 +108,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      con.onLogin(context);
+                      // con.onLogin(context);
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 20),
@@ -129,7 +119,7 @@ class LoginScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                           color: AppColors.primaryColor),
                       child: Text(
-                        'Login',
+                        'Sign Up',
                         style: Theme.of(context)
                             .textTheme
                             .headlineMedium!
@@ -146,11 +136,11 @@ class LoginScreen extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text('Do not have an Account?'),
+                        const Text('Already have an Account?'),
                         TextButton(
-                          child: const Text('Sign Up'),
+                          child: const Text('Sign in'),
                           onPressed: () {
-                            context.go('/sign-up');
+                            context.go('/log-in');
                           },
                         )
                       ],
