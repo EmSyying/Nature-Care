@@ -6,7 +6,9 @@ import 'package:nature_care/module/home/screen/shipping.dart';
 import 'package:nature_care/module/login/controller/login_controller.dart';
 import 'package:nature_care/util/colors/app_colors.dart';
 import 'package:nature_care/util/helper/custom_appbar.dart';
+import 'package:nature_care/widget/custom_all_menu_card.dart';
 import 'package:nature_care/widget/custom_base_card.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../../widget/custom_category_menu.dart';
 import '../model/categoryModel/category_model.dart';
@@ -21,26 +23,50 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  PageController pageController = PageController();
   int qty = 0;
+  int currentSelect = 0;
+  int? monthIndex;
   void onIncrease() {
     qty++;
   }
+
+  int startIndex = 0;
+  int endIndex = -1;
+
+  static DateTime addDaysToDate(DateTime date, int days) {
+    return DateTime(date.year, date.month, date.day + days);
+  }
+
+  DateTime now = DateTime.now();
 
   // onMinus() {
   //   int i = qty;
 
   // }
-
+  AutoScrollController scrollController = AutoScrollController();
   int? isSingleSelect;
   final homeCon = Get.put(HomeController());
   final loginCon = Get.put(LoginController());
-
+  List calandar = [];
   @override
   void initState() {
     onIncrease();
     homeCon.getAllProduct();
     homeCon.getUser();
     homeCon.fetchCompany();
+    homeCon.getMonth().then((value) {
+      debugPrint("value ${homeCon.monthList.length}");
+      homeCon.monthList.map((element) {
+        // calandar.add(element.year.toString());
+        element.month!.map((e) {
+          calandar.add(e.name);
+        }).toList();
+      }).toList();
+      setState(() {});
+      debugPrint("gelokdsa ${calandar.length.toString()}");
+    });
+
     super.initState();
   }
 
@@ -214,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverAppBar(
             leading: const Text(''),
-            expandedHeight: 150,
+            expandedHeight: 200,
             // title: const Text('sliver app bar'),
             flexibleSpace: FlexibleSpaceBar(
               collapseMode: CollapseMode.none,
@@ -236,23 +262,119 @@ class _HomeScreenState extends State<HomeScreen> {
                           return CustomCategoryMenu(
                             categoryModel: e.value,
                           );
-                        })
-                        // CustomCategoryMenu(
-                        //   title: 'Hair',
-                        //   color: AppColors.cestColor,
-                        //   textColor: Colors.white,
-                        // ),
-                        // CustomCategoryMenu(
-                        //   title: 'Face',
-                        // ),
-                        // CustomCategoryMenu(
-                        //   title: 'Body',
-                        // ),
-                        // CustomCategoryMenu(
-                        //   title: 'Nail',
-                        // ),
+                        }),
                       ],
-                    )
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            height: 50,
+                            // width: 200,
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: calandar.length,
+                                controller: scrollController,
+                                itemBuilder: (context, index) {
+                                  return AutoScrollTag(
+                                    index: index,
+                                    key: ValueKey(index),
+                                    controller: scrollController,
+                                    child: Row(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            startIndex = index;
+                                            setState(() {});
+                                          },
+                                          child: Container(
+                                            color: index == startIndex
+                                                ? AppColors.cestColor
+                                                : Colors.transparent,
+                                            padding: const EdgeInsets.only(
+                                                right: 20),
+                                            margin: const EdgeInsets.all(10),
+                                            child: Text(
+                                              '${calandar[index]}',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .displayMedium!
+                                                  .copyWith(fontSize: 24),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            debugPrint(
+                                "categoryList.length ${calandar.length} , $startIndex");
+                            if (startIndex == calandar.length - 1) {
+                              startIndex = 0;
+                            } else {
+                              startIndex++;
+                            }
+                            // if (pageController.page != 0) {
+                            //   pageController.animateToPage(startIndex,
+                            //       duration: const Duration(microseconds: 200),
+                            //       curve: Curves.fastOutSlowIn);
+                            // }
+
+                            scrollController.scrollToIndex(startIndex,
+                                preferPosition: AutoScrollPosition.begin);
+                            setState(() {});
+
+                            //              if (startIndex == -1) {
+                            //   startIndex = index;
+                            //   endIndex = index;
+                            // } else if (startIndex <= index) {
+                            //   endIndex = index;
+                            // } else {
+                            //   endIndex = startIndex;
+                            //   startIndex = index;
+                            // }
+                          },
+                          icon: const Icon(Icons.arrow_forward_ios),
+                        ),
+                      ],
+                    ),
+                    // NotificationListener<ScrollNotification>(
+                    //     onNotification: (ScrollNotification notification) {
+                    //       if (notification.metrics.pixels ==
+                    //           notification.metrics.maxScrollExtent) {
+                    //         homeCon.getMonth();
+                    //       }
+                    //       return false;
+                    //     },
+                    //     child: SingleChildScrollView(
+                    //       scrollDirection: Axis.horizontal,
+                    //       child: Obx(
+                    //         () => Row(
+                    //           children: [
+                    //             ...homeCon.monthModel.value.month!
+                    //                 .asMap()
+                    //                 .entries
+                    //                 .map((e) {
+                    //               return Padding(
+                    //                 padding: const EdgeInsets.only(left: 40),
+                    //                 child: Text(
+                    //                   'okk',
+                    //                   style: Theme.of(context)
+                    //                       .textTheme
+                    //                       .displayLarge!
+                    //                       .copyWith(fontSize: 24),
+                    //                 ),
+                    //               );
+                    //             })
+                    //           ],
+                    //         ),
+                    //       ),
+                    //     )),
                   ],
                 ),
               ),
@@ -283,7 +405,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ...homeCon.testUserList.asMap().entries.map(
                           (e) {
                             return Padding(
-                              padding: const EdgeInsets.only(left: 10),
+                              padding: const EdgeInsets.only(left: 15),
                               child: CustomBaseCard(
                                 title: e.value.name,
                                 price: '15\$',
@@ -312,79 +434,52 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-
-                  // SingleChildScrollView(
-                  //   scrollDirection: Axis.horizontal,
-                  //   child: Row(
-                  //     children: [
-                  //       ...homeCon.productList.asMap().entries.map((e) {
-                  //         return Padding(
-                  //           padding: const EdgeInsets.only(left: 10),
-                  //           child: CustomBaseCard(
-                  //             testModel: e.value,
-                  //             // img: e.value.imageLink,
-                  //             // title: e.value.name,
-                  //             // price: e.value.price,
-                  //             // currency: e.value.currency,
-                  //             // isSelect: e.value.isSelect,
-                  //             // onTap: () {
-                  //             //   debugPrint('hiiiiiiii');
-                  //             // },
-                  //           ),
-                  //         );
-                  //       }),
-                  //     ],
-                  //   ),
-                  // ),
                 ),
+                const Padding(
+                  padding: EdgeInsets.only(left: 15, bottom: 20),
+                  child: Text('All Product'),
+                ),
+                const CustomAllMenuCard(
+                  title: 'skin care',
+                  price: 12,
+                )
                 //====================multiple and single single select
-                ...categoryList.asMap().entries.map((e) {
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        if (isSingleSelect == e.key) {
-                          isSingleSelect = null;
-                        } else {
-                          isSingleSelect = e.key;
-                        }
-                        if (categoryList[e.key].isSelect == true) {
-                          categoryList[e.key] =
-                              categoryList[e.key].copyWith(isSelect: false);
-                        } else {
-                          categoryList[e.key] =
-                              categoryList[e.key].copyWith(isSelect: true);
-                        }
-                      });
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.only(left: 20, top: 20),
-                      color: categoryList[e.key].isSelect == true
-                          ? Colors.amber
-                          : const Color.fromARGB(255, 243, 187, 183),
-                      width: 50,
-                      height: 50,
-                      child: Center(
-                        child: isSingleSelect != e.key
-                            ? const Text('No')
-                            : const Text('Ok'),
-                      ),
-                    ),
-                  );
-                }),
+                // ...categoryList.asMap().entries.map((e) {
+                //   return GestureDetector(
+                //     onTap: () {
+                //       setState(() {
+                //         if (isSingleSelect == e.key) {
+                //           isSingleSelect = null;
+                //         } else {
+                //           isSingleSelect = e.key;
+                //         }
+                //         if (categoryList[e.key].isSelect == true) {
+                //           categoryList[e.key] =
+                //               categoryList[e.key].copyWith(isSelect: false);
+                //         } else {
+                //           categoryList[e.key] =
+                //               categoryList[e.key].copyWith(isSelect: true);
+                //         }
+                //       });
+                //     },
+                //     child: Container(
+                //       margin: const EdgeInsets.only(left: 20, top: 20),
+                //       color: categoryList[e.key].isSelect == true
+                //           ? Colors.amber
+                //           : const Color.fromARGB(255, 243, 187, 183),
+                //       width: 50,
+                //       height: 50,
+                //       child: Center(
+                //         child: isSingleSelect != e.key
+                //             ? const Text('No')
+                //             : const Text('Ok'),
+                //       ),
+                //     ),
+                //   );
+                // }),
                 // Obx(
                 //   () => Text('${homeCon.testCompanyModel.value.id}'),
                 // ),
-                GetBuilder<HomeController>(
-                    init: HomeController(),
-                    builder: (con) {
-                      return Column(
-                        children: [
-                          ...homeCon.testCompanyList.asMap().entries.map((e) {
-                            return Text('${e.value.id}');
-                          }).toList(),
-                        ],
-                      );
-                    }),
               ],
             ),
           ),

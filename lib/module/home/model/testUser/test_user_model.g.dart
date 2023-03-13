@@ -13,6 +13,7 @@ _$_TestUserModel _$$_TestUserModelFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String?,
       email: json['email'] as String?,
       body: json['body'] as String?,
+      qty: json['qty'] as int?,
     );
 
 Map<String, dynamic> _$$_TestUserModelToJson(_$_TestUserModel instance) =>
@@ -22,4 +23,5 @@ Map<String, dynamic> _$$_TestUserModelToJson(_$_TestUserModel instance) =>
       'name': instance.name,
       'email': instance.email,
       'body': instance.body,
+      'qty': instance.qty,
     };

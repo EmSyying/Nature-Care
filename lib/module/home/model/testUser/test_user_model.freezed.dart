@@ -26,6 +26,7 @@ mixin _$TestUserModel {
   String? get name => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
   String? get body => throw _privateConstructorUsedError;
+  int? get qty => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,7 +45,8 @@ abstract class $TestUserModelCopyWith<$Res> {
       @JsonKey(name: 'post_id') int? postId,
       String? name,
       String? email,
-      String? body});
+      String? body,
+      int? qty});
 }
 
 /// @nodoc
@@ -65,6 +67,7 @@ class _$TestUserModelCopyWithImpl<$Res, $Val extends TestUserModel>
     Object? name = freezed,
     Object? email = freezed,
     Object? body = freezed,
+    Object? qty = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -87,6 +90,10 @@ class _$TestUserModelCopyWithImpl<$Res, $Val extends TestUserModel>
           ? _value.body
           : body // ignore: cast_nullable_to_non_nullable
               as String?,
+      qty: freezed == qty
+          ? _value.qty
+          : qty // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -104,7 +111,8 @@ abstract class _$$_TestUserModelCopyWith<$Res>
       @JsonKey(name: 'post_id') int? postId,
       String? name,
       String? email,
-      String? body});
+      String? body,
+      int? qty});
 }
 
 /// @nodoc
@@ -123,6 +131,7 @@ class __$$_TestUserModelCopyWithImpl<$Res>
     Object? name = freezed,
     Object? email = freezed,
     Object? body = freezed,
+    Object? qty = freezed,
   }) {
     return _then(_$_TestUserModel(
       id: freezed == id
@@ -145,6 +154,10 @@ class __$$_TestUserModelCopyWithImpl<$Res>
           ? _value.body
           : body // ignore: cast_nullable_to_non_nullable
               as String?,
+      qty: freezed == qty
+          ? _value.qty
+          : qty // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -157,7 +170,8 @@ class _$_TestUserModel implements _TestUserModel {
       @JsonKey(name: 'post_id') this.postId,
       this.name,
       this.email,
-      this.body});
+      this.body,
+      this.qty});
 
   factory _$_TestUserModel.fromJson(Map<String, dynamic> json) =>
       _$$_TestUserModelFromJson(json);
@@ -173,10 +187,12 @@ class _$_TestUserModel implements _TestUserModel {
   final String? email;
   @override
   final String? body;
+  @override
+  final int? qty;
 
   @override
   String toString() {
-    return 'TestUserModel(id: $id, postId: $postId, name: $name, email: $email, body: $body)';
+    return 'TestUserModel(id: $id, postId: $postId, name: $name, email: $email, body: $body, qty: $qty)';
   }
 
   @override
@@ -188,12 +204,14 @@ class _$_TestUserModel implements _TestUserModel {
             (identical(other.postId, postId) || other.postId == postId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.body, body) || other.body == body));
+            (identical(other.body, body) || other.body == body) &&
+            (identical(other.qty, qty) || other.qty == qty));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, postId, name, email, body);
+  int get hashCode =>
+      Object.hash(runtimeType, id, postId, name, email, body, qty);
 
   @JsonKey(ignore: true)
   @override
@@ -215,7 +233,8 @@ abstract class _TestUserModel implements TestUserModel {
       @JsonKey(name: 'post_id') final int? postId,
       final String? name,
       final String? email,
-      final String? body}) = _$_TestUserModel;
+      final String? body,
+      final int? qty}) = _$_TestUserModel;
 
   factory _TestUserModel.fromJson(Map<String, dynamic> json) =
       _$_TestUserModel.fromJson;
@@ -231,6 +250,8 @@ abstract class _TestUserModel implements TestUserModel {
   String? get email;
   @override
   String? get body;
+  @override
+  int? get qty;
   @override
   @JsonKey(ignore: true)
   _$$_TestUserModelCopyWith<_$_TestUserModel> get copyWith =>

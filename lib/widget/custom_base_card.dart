@@ -42,7 +42,7 @@ class _CustomBaseCardState extends State<CustomBaseCard> {
         height: 180,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: const Color.fromARGB(255, 171, 145, 243),
+          color: AppColors.primaryColor,
           boxShadow: [
             BoxShadow(
               blurRadius: 5,
@@ -98,8 +98,7 @@ class _CustomBaseCardState extends State<CustomBaseCard> {
                                           topRight: Radius.circular(10),
                                           bottomRight: Radius.circular(10),
                                         ),
-                                        color:
-                                            Color.fromARGB(255, 171, 145, 243)),
+                                        color: AppColors.primaryColor),
                                     child: GestureDetector(
                                         onTap: widget.onTapincrease,
                                         child: const Text('+')),
@@ -119,8 +118,7 @@ class _CustomBaseCardState extends State<CustomBaseCard> {
                                           topLeft: Radius.circular(10),
                                           bottomLeft: Radius.circular(10),
                                         ),
-                                        color:
-                                            Color.fromARGB(255, 171, 145, 243)),
+                                        color: AppColors.primaryColor),
                                     child: GestureDetector(
                                         onTap: widget.onTapminus,
                                         child: const Text('-')),

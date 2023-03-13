@@ -13,6 +13,7 @@ class TestUserModel with _$TestUserModel {
     final String? name,
     final String? email,
     final String? body,
+    final int? qty,
   }) = _TestUserModel;
 
   factory TestUserModel.fromJson(Map<String, dynamic> json) =>
